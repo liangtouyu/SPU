@@ -1,0 +1,42 @@
+{% extends "public/base.html" %}
+{% load static %}
+
+{% block content_nav %}
+    <header data-am-widget="header" class="am-header am-header-default sq-head ">
+        <div class="am-header-left am-header-nav">
+            <a href="javascript:history.back()" class="">
+                <i class="am-icon-chevron-left"></i>
+            </a>
+        </div>
+        <h1 class="am-header-title">
+            <a href="" class="">注册</a>
+        </h1>
+    </header>
+{% endblock %}
+
+{% block content_main %}
+    <div style="height: 49px;"></div>
+
+    <div style="height: 3rem;"></div>
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {{ form.phone }}<p class="am-text-danger">{{ form.errors.phone.0 }}</p>
+        {{ form.password }}<p class="am-text-danger">{{ form.errors.password.0 }}</p>
+        <input type="password" name="repassword" placeholder="确认密码" class="login-name">
+        <div class="yzm" style="margin-top: 1.5rem;">
+            <input type="text" name="verify_code" class="reg-yzm" placeholder="输入验证码"/>
+            <input type="button" class="yzm-hq" value="获取验证码"/>
+        </div>
+        <p class="am-text-danger">{{ form.errors.verify_code.0 }}</p>
+        <input type="submit" class="login-btn" value="立即注册">
+        <div class="agree">
+            <input type="checkbox" name="agree" value="1" checked="">&nbsp;同意
+            <p class="am-text-danger">{{ form.errors.agree.0 }}</p>
+            <a href="" class="xy">《用户协议》</a>
+            <div class="r-login">已有账号，请
+                <a href="{% url 'sp_user:login' %}" class="l-login">登录</a>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
