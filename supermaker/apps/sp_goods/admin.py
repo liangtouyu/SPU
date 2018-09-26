@@ -1,57 +1,72 @@
 from django.contrib import admin
 
-# Register your models here.
-from sp_goods.models import GoodsSKU, GoodsCategory, GoodsSPU, GoodsGallery, GoodsUnit
+from sp_goods.models import (GoodsCategory, GoodsUnit, GoodsSPU, ActivityZone,
+                             ActivityZoneGoods, Activity, Banner, GoodsGallery, GoodsSKU)
 
 
-@admin.register(GoodsSKU)
-class RegionAdmin(admin.ModelAdmin):
-    # 设置每页多少条,
-    list_per_page = 5
-    # 控制工具的位置
-    actions_on_bottom = False
-    actions_on_top = True
-
-    # 设置显示的字符
-    list_display = ['id', 'sku_name', 'brief', 'price', 'unit', 'stock',
-                    'sale_num', 'logo', 'is_on_sale', 'category', 'goods_spu']
-
-    # 设置字段链接
-    list_display_links = ['id', 'sku_name', 'brief', 'price', 'unit', 'stock',
-                          'sale_num', 'logo', 'is_on_sale', 'category', 'goods_spu']
+admin.site.site_header = "超级电商管理平台"
 
 
 @admin.register(GoodsCategory)
-class RegionAdmin(admin.ModelAdmin):
-    list_per_page = 5
-    actions_on_bottom = False
-    actions_on_top = True
-    list_display = ['cate_name', 'brief']
-    list_display_links = ['cate_name', 'brief']
-
-
-@admin.register(GoodsSPU)
-class RegionAdmin(admin.ModelAdmin):
-    list_per_page = 5
-    actions_on_bottom = False
-    actions_on_top = True
-    list_display = ['spu_name', 'content']
-    list_display_links = ['spu_name', 'content']
-
-
-@admin.register(GoodsGallery)
-class RegionAdmin(admin.ModelAdmin):
-    list_per_page = 5
-    actions_on_bottom = False
-    actions_on_top = True
-    list_display = ['img_url']
-    list_display_links = ['img_url']
+class CategoryAdmin(admin.ModelAdmin):
+    # 商品分类
+    pass
 
 
 @admin.register(GoodsUnit)
-class RegionAdmin(admin.ModelAdmin):
-    list_per_page = 5
-    actions_on_bottom = False
-    actions_on_top = True
-    list_display = ['name']
-    list_display_links = ['name']
+class UnitAdmin(admin.ModelAdmin):
+    # 商品单位
+    pass
+
+
+@admin.register(GoodsSPU)
+class GoodsSPUAdmin(admin.ModelAdmin):
+    # 商品SPU
+    pass
+
+
+# 关联商品的相册
+class GoodsSKUAdminInLine(admin.TabularInline):
+    model = GoodsGallery
+    extra = 3
+    fields = ['goods_sku', 'img_url']
+
+
+# 注册GoodsSKU的模型到后台
+@admin.register(GoodsSKU)
+# 定制显示效果
+class GoodsSKUAdmin(admin.ModelAdmin):
+    # 商品SPU
+    # 关联模型展示
+    inlines = [
+        GoodsSKUAdminInLine
+    ]
+
+
+# 注册Banner的模型到后台
+@admin.register(Banner)
+class BannerAdmin(admin.ModelAdmin):
+    pass
+
+
+# 注册Activity的模型到后台
+@admin.register(Activity)
+class ActivityAdmin(admin.ModelAdmin):
+    pass
+
+
+# 注册ActivityZone的模型到后台
+class ActivityZoneAdminInline(admin.StackedInline):
+    model = ActivityZoneGoods
+    extra = 2
+
+
+@admin.register(ActivityZone)
+class ActivityZoneAdmin(admin.ModelAdmin):
+    inlines = [
+        ActivityZoneAdminInline
+    ]
+
+
+
+
